@@ -2121,7 +2121,6 @@ int usb_port_suspend(struct usb_device *udev, pm_message_t msg)
 				NULL, 0,
 				USB_CTRL_SET_TIMEOUT);
 
-		
 		if (!PMSG_IS_AUTO(msg))
 			status = 0;
 	} else {
