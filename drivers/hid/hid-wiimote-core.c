@@ -1337,56 +1337,6 @@ static void handler_ext(struct wiimote_data *wdata, const __u8 *payload,
 	/* ignore EXT events if no extension is active */
 	if (!(wdata->state.flags & WIIPROTO_FLAG_EXT_ACTIVE) && !is_mp)
 		return;
-
-	/* try forwarding to extension handler, first */
-	ops = wiimod_ext_table[wdata->state.exttype];
-	if (is_mp && ops->in_mp) {
-		ops->in_mp(wdata, payload);
-		return;
-	} else if (!is_mp && valid_ext_handler(ops, len)) {
-		ops->in_ext(wdata, payload);
-		return;
-	}
-
-	/* try forwarding to MP handler */
-	ops = &wiimod_mp;
-	if (is_mp && ops->in_mp) {
-		ops->in_mp(wdata, payload);
-		return;
-	} else if (!is_mp && valid_ext_handler(ops, len)) {
-		ops->in_ext(wdata, payload);
-		return;
-	}
-
-	/* try forwarding to loaded modules */
-	mods = wiimote_devtype_mods[wdata->state.devtype];
-	for (iter = mods; *iter != WIIMOD_NULL; ++iter) {
-		ops = wiimod_table[*iter];
-		if (is_mp && ops->in_mp) {
-			ops->in_mp(wdata, payload);
-			return;
-		} else if (!is_mp && valid_ext_handler(ops, len)) {
-			ops->in_ext(wdata, payload);
-			return;
-		}
-	}
-}
-
-#define ir_to_input0(wdata, ir, packed) handler_ir((wdata), (ir), (packed), 0)
-#define ir_to_input1(wdata, ir, packed) handler_ir((wdata), (ir), (packed), 1)
-#define ir_to_input2(wdata, ir, packed) handler_ir((wdata), (ir), (packed), 2)
-#define ir_to_input3(wdata, ir, packed) handler_ir((wdata), (ir), (packed), 3)
-
-static void handler_ir(struct wiimote_data *wdata, const __u8 *payload,
-		       bool packed, unsigned int id)
-{
-	const __u8 *iter, *mods;
-	const struct wiimod_ops *ops;
-
-	ops = wiimod_ext_table[wdata->state.exttype];
-	if (ops->in_ir) {
-		ops->in_ir(wdata, payload, packed, id);
-		return;
 	}
 
 	mods = wiimote_devtype_mods[wdata->state.devtype];
