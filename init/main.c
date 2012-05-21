@@ -502,9 +502,6 @@ asmlinkage void __init start_kernel(void)
 	early_boot_irqs_disabled = false;
 	local_irq_enable();
 
-	
-	gfp_allowed_mask = __GFP_BITS_MASK;
-
 	kmem_cache_init_late();
 
 	console_init();
@@ -759,6 +756,16 @@ static noinline int init_post(void)
 static int __init kernel_init(void * unused)
 {
 	wait_for_completion(&kthreadd_done);
+<<<<<<< HEAD
+=======
+
+	/* Now the scheduler is fully set up and can do blocking allocations */
+	gfp_allowed_mask = __GFP_BITS_MASK;
+
+	/*
+	 * init can allocate pages on any node
+	 */
+>>>>>>> ae77ce9... Fix blocking allocations called very early during bootup
 	set_mems_allowed(node_states[N_HIGH_MEMORY]);
 	set_cpus_allowed_ptr(current, cpu_all_mask);
 
