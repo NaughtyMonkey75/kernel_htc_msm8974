@@ -711,7 +711,6 @@ static int exec_mmap(struct mm_struct *mm)
 	
 	tsk = current;
 	old_mm = current->mm;
-	sync_mm_rss(old_mm);
 	mm_release(tsk, old_mm);
 
 	if (old_mm) {
