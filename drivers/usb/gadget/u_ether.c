@@ -1071,11 +1071,6 @@ int gether_setup_name(struct usb_gadget *g, u8 ethaddr[ETH_ALEN],
 		INFO(dev, "HOST MAC %pM\n", dev->host_mac);
 
 		the_dev = dev;
-        if (g) {
-            the_dev->miMaxMtu = g->miMaxMtu;
-            if (the_dev->miMaxMtu == ETH_FRAME_LEN_MAX - ETH_HLEN)
-                the_dev->net->mtu = ETH_FRAME_LEN_MAX - ETH_HLEN;
-        }
 		netif_carrier_off(net);
 	}
 
