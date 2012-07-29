@@ -1255,6 +1255,7 @@ static long __tun_chr_ioctl(struct file *file, unsigned int cmd,
 	int vnet_hdr_sz;
 	int ret;
 
+<<<<<<< HEAD
 #ifdef CONFIG_ANDROID_PARANOID_NETWORK
 	if (cmd != TUNGETIFF && !capable(CAP_NET_ADMIN)) {
 		return -EPERM;
@@ -1262,9 +1263,14 @@ static long __tun_chr_ioctl(struct file *file, unsigned int cmd,
 #endif
 
 	if (cmd == TUNSETIFF || _IOC_TYPE(cmd) == 0x89)
+=======
+	if (cmd == TUNSETIFF || _IOC_TYPE(cmd) == 0x89) {
+>>>>>>> 143d996... net/tun: fix ioctl() based info leaks
 		if (copy_from_user(&ifr, argp, ifreq_len))
 			return -EFAULT;
-
+	} else {
+		memset(&ifr, 0, sizeof(ifr));
+	}
 	if (cmd == TUNGETFEATURES) {
 		/* Currently this just means: "what IFF flags are valid?".
 		 * This is needed because we never checked for invalid flags on
