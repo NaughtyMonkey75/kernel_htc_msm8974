@@ -352,13 +352,15 @@ static int call_undef_hook(struct pt_regs *regs, unsigned int instr)
 
 asmlinkage void __exception do_undefinstr(struct pt_regs *regs)
 {
-	unsigned int correction = thumb_mode(regs) ? 2 : 4;
 	unsigned int instr;
 	siginfo_t info;
 	void __user *pc;
 
+<<<<<<< HEAD
 	regs->ARM_pc -= correction;
 
+=======
+>>>>>>> 8115553... ARM: Fix undefined instruction exception handling
 	pc = (void __user *)instruction_pointer(regs);
 
 	if (processor_mode(regs) == SVC_MODE) {
