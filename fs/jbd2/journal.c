@@ -1112,8 +1112,6 @@ static void jbd2_mark_journal_empty(journal_t *journal)
 	journal->j_flags |= JBD2_FLUSHED;
 	write_unlock(&journal->j_state_lock);
 }
-
-
 void jbd2_journal_update_sb_errno(journal_t *journal)
 {
 	journal_superblock_t *sb = journal->j_superblock;
